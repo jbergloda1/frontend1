@@ -5,9 +5,9 @@
     </div>
     <b-row align-h="center">
       <b-col
-        cols="3"
+        cols="4"
         class="place-list"
-        v-for="product1 in products"
+        v-for="product1 in products.data"
         :key="product1.id"
       >
         <b-card

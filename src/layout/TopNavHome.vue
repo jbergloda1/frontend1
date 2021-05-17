@@ -9,28 +9,27 @@
         <router-link class="item-menu" to="/about">About</router-link>
         <router-link class="item-menu" to="/contact">Contact</router-link>
 
-        
+        <div v-if="mail != null">
+          <router-link class="item-menu" to="/viewcart"
+            >Cart (<span class="total-count">{{ quantity_cart }}</span
+            >)
+            <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
+          </router-link>
+          <router-link class="item-menu" to="/profile-customer">{{ mail }}</router-link>
+          <b-button variant="primary" class="item-menu" @click="logout"
+            >Đăng xuất </b-button
+          >
+        </div>
+        <div v-else>
+          <router-link class="item-menu" to="/logincustomer">Login</router-link>
+        </div>
         <!-- <b-button class="cart-bt" to="/viewcart" data-toggle="modal" data-target="#cart">
           Cart (<span class="total-count"></span>)
           <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
           </b-button> -->
       </b-navbar-nav>
       <b-collapse id="nav-collapse" is-nav> </b-collapse>
-      <div class ="flright" v-if="mail != null">
-          <b-button variant="primary" class="item-menu" @click="logout"
-            >Đăng xuất: {{ mail }}</b-button
-          >
-        </div>
-        <div v-else>
-          <router-link class="item-menu" to="/logincustomer">Login</router-link>
-        </div>
-        <router-link class="item-menu" to="/viewcart"
-            >Cart (<span class="total-count">{{ quantity_cart }}</span
-            >)
-            <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
-        </router-link>
     </b-navbar>
-    
   </div>
 </template>
 
@@ -55,7 +54,9 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("logoutcustomer").then(() => this.$router.push("/logincustomer")).then(() => this.$router.go());
+      this.$store
+        .dispatch("logoutcustomer")
+        .then(() => this.$router.go());
     },
     total() {
       var self = this;
@@ -95,8 +96,5 @@ export default {
 }
 .cart-bt {
   margin: 15px 15px;
-}
-.flright{
-  float: right;
 }
 </style>

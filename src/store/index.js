@@ -96,7 +96,7 @@ const store = new Vuex.Store({
             },
             logoutcustomer({ commit }) {
                 return new Promise((resolve, reject) => {
-                    //commit('logoutcustomer')
+                    commit('logoutcustomer')
                     localStorage.removeItem('customer')
                     resolve()
                 })

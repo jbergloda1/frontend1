@@ -27,7 +27,7 @@
                   Add new
                 </button>
               </div>
-              <table class="table category" id="my-table">
+              <table class="table category"      id="my-table">
                 <thead>
                   <slot name="columns">
                     <tr>
@@ -124,12 +124,12 @@
                   :data="category1.data"
                   @pagination-change-page="getResults"
                 ></pagination>
-                <b-pagination
-                  v-model="currentPage"
-                  :total-rows="rows"
-                  :per-page="perPage"
-                  aria-controls="my-table"
-                ></b-pagination>
+                    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+    ></b-pagination>
               </table>
             </template>
           </card>
@@ -150,8 +150,8 @@ export default {
   name: "add-category",
   data() {
     return {
-      perPage: 2,
-      currentPage: 1,
+              perPage: 2,
+        currentPage: 1,
       search: "",
       isEdit: false,
       category1: {},
@@ -161,38 +161,36 @@ export default {
       formedit: {
         id: null,
         name: "",
-        status: "",
+        status: ""
       },
       options: [
         { value: 1, text: "Active" },
-        { value: 2, text: "Inactive" },
-      ],
+        { value: 2, text: "Inactive" }
+      ]
     };
   },
   name: "c-table",
   mounted() {
-    this.totalRows = this.category1.length;
+          this.totalRows = this.category1.length
   },
   created() {
     this.getItem();
   },
-  computed: {
-    rows() {
-      return this.category1;
+    computed: {
+      rows() {
+        return this.category1
+      }
     },
-  },
   methods: {
     searchUnit() {
-      axios
-        .get("http://127.0.0.1:8000/api/category?name=" + this.search)
-        .then((response) => {
-          this.category1 = response.data;
-        });
+      axios.get("http://127.0.0.1:8000/api/category?name=" + this.search).then(response => {
+        this.category1 = response.data;
+      });
     },
     getResults(page = 1) {
       axios
         .get("http://127.0.0.1:8000/api/category?page=" + page)
-        .then((response) => {
+        .then(response => {
           this.category1 = response.data;
         });
     },
@@ -204,11 +202,11 @@ export default {
       var self = this;
       Vue.axios
         .get("http://127.0.0.1:8000/api/category")
-        .then(function (resp) {
+        .then(function(resp) {
           self.category1 = resp.data;
           console.log("Data:", resp.data.data);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log("Loi:", error);
         });
     },
@@ -219,13 +217,13 @@ export default {
       console.log("http://127.0.0.1:8000/api/category/" + id);
       axios
         .get("http://127.0.0.1:8000/api/category/" + id)
-        .then((res) => {
+        .then(res => {
           this.formedit.name = res.data.data.name;
           console.log(res.data.data.name);
           this.formedit.status = res.data.data.status;
           console.log("Thành công");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log("lỗi:", error);
         });
     },
@@ -250,12 +248,12 @@ export default {
       console.log("lay thu id", isEdit.id);
       axios
         .put("http://127.0.0.1:8000/api/category/" + isEdit.id, isEdit)
-        .then((res) => {
+        .then(res => {
           console.log(res.data.data);
           this.getItem();
           Swal.fire("Đã sửa!", "Sửa category thành công.", "success");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log("lỗi:", error);
           this.getItem();
         });
@@ -266,30 +264,29 @@ export default {
       });
     },
     handleAdd(bvModalEvt) {
-      var _this = this;
+      var _this=this;
       var isAdd = _this.formadd;
-      if (this.formadd.name == "") {
+      if(this.formadd.name == ""){
         Swal.fire("Failed!", "Bạn phải nhập tên", "warning");
-      } else {
-        axios
-          .post(`http://127.0.0.1:8000/api/category`, isAdd)
-          .then((res) => {
-            this.getItem();
-            console.log("Thành công");
-            Swal.fire("Đã thêm!", "Thêm category thành công.", "success");
-          })
-          .catch((error) => {
-            this.getItem();
-            console.log("Lỗi", error);
-            Swal.fire("Failed!", "Lỗi không thêm được", "warning");
-          });
-        bvModalEvt.preventDefault();
-        this.$nextTick(() => {
-          this.$bvModal.hide("add-modal");
+      }else{
+      axios
+        .post(`http://127.0.0.1:8000/api/category`, isAdd)
+        .then(res => {
+          this.getItem();
+          console.log("Thành công");
+          Swal.fire("Đã thêm!", "Thêm category thành công.", "success");
+        })
+        .catch(error => {
+          this.getItem();
+          console.log("Lỗi", error);
+          Swal.fire("Failed!", "Lỗi không thêm được", "warning");
         });
-      }
-    },
-  },
+      bvModalEvt.preventDefault();
+      this.$nextTick(() => {
+        this.$bvModal.hide("add-modal");
+      });}
+    }
+  }
 };
 </script>
 <style scoped>
