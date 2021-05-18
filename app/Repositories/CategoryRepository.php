@@ -3,9 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
+
 
 class CategoryRepository
 {
@@ -18,8 +16,8 @@ class CategoryRepository
         ->when(isset($inputs['name']), function ($query) use ($inputs) {
             return $query->where('name', 'LIKE', '%' . $inputs['name'] . '%');
         })
-        ->orderBy('name', 'desc')
-        ->paginate(10);
+        ->orderBy('id', 'asc')
+        ->paginate();
     }
     
     //Store Category

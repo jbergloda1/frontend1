@@ -6,9 +6,6 @@ use App\Models\Bill;
 use App\Models\BillDetail;
 use App\Models\Customer;
 use App\Models\ProductSizeColor;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
 
 class BillRepository
 {

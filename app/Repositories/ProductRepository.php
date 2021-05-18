@@ -6,10 +6,7 @@ use App\Models\Product;
 use App\Models\Size;
 use App\Models\ProductSizeColor;
 use App\Models\Color;
-use App\Models\Supplier;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
+
 
 class ProductRepository
 {
@@ -37,40 +34,17 @@ class ProductRepository
             return $query->where('product.name', 'LIKE', '%' . $inputs['name'] . '%');
         })
         ->orderBy('product.sale', 'desc')
-        ->paginate(10);
+        ->paginate();
     }
-    // Search Newest Product
-    public function showNewest($inputs){
-        return Product::join('supplier', 'product.supplier_id', '=', 'supplier.id')
-        ->join('category', 'product.category_id', '=', 'category.id')
-        ->select('product.id as id', 'product.name as name', 
-               'product.img as img', 'product.note as note',
-               'product.import_price as import_price',
-               'product.export_price as export_price',
-               'product.amount as amount',
-               'product.sale as sale',
-               'product.status as status',
-               'supplier.name as supplier_id',
-               'category.name as category_id')
-        ->when(isset($inputs['id']), function ($query) use ($inputs) {
-            return $query->where('product.id', $inputs['id']);
-        })
-        ->when(isset($inputs['status']), function ($query) use ($inputs) {
-            return $query->where('product.status', $inputs['status']);
-        })
-        ->when(isset($inputs['name']), function ($query) use ($inputs) {
-            return $query->where('product.name', 'LIKE', '%' . $inputs['name'] . '%');
-        })
-        ->latest('product.created_at')
-        ->get(4);
 
-    }
     //Show Product
     public function show($id)
     {
         return Product::findOrFail($id);
     }
-    
+    public function showNewest(){
+        return Product::wherestatus(1)->latest()->paginate(3);
+    }
     //Store Product
     public function store($inputs, $newNamefile)
     {
@@ -79,8 +53,8 @@ class ProductRepository
             'img'           => $newNamefile,
             'note'          => $inputs['note'],
             'import_price'  => $inputs['import_price'],
-            'export_price'  => $inputs['export_price'],
-            'sale'          => $inputs['sale'],
+            'export_price'  => $inputs['export_price'] ? $inputs['export_price'] : null,
+            'sale'          => $inputs['sale'] ? $inputs['sale'] : null,
             'supplier_id'   => $inputs['supplier_id'],
             'category_id'   => $inputs['category_id'],
             'status'        => 1
@@ -116,8 +90,8 @@ class ProductRepository
                 'name'          => $inputs['name'],
                 'note'          => $inputs['note'],
                 'import_price'  => $inputs['import_price'],
-                'export_price'  => $inputs['export_price'],
-                'sale'          => $inputs['sale'],
+                'export_price'  => $inputs['export_price'] ? $inputs['export_price'] : null,
+                'sale'          => $inputs['sale'] ? $inputs['sale'] : null,
                 'supplier_id'   => $inputs['supplier_id'],
                 'category_id'   => $inputs['category_id']
             ]);
@@ -206,6 +180,7 @@ class ProductRepository
         ->orderBy('name', 'desc')
         ->paginate(10);
     }
+   
     public function get()
     {
         return Product::orderBy('sale', 'desc')->paginate(10);

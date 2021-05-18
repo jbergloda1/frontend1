@@ -4,9 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use App\Models\ProductSizeColor;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
 
 class HomeRepository
 {
@@ -38,5 +35,12 @@ class HomeRepository
         ->whereproduct_id($product)
         ->wherecolor_id($color)
         ->paginate();
+    }
+
+    public function showProductNew()
+    {
+        return Product::wherestatus(1)->latest()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     }
 }

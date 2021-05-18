@@ -2,11 +2,7 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
 use App\Models\Supplier;
-use App\Models\Category;
-use Config;
 
 class SupplierRepository
 {
@@ -19,7 +15,7 @@ class SupplierRepository
         ->when(isset($inputs['name']), function ($query) use ($inputs) {
             return $query->where('supplier.name', 'LIKE', '%' . $inputs['name'] . '%');
         })
-        ->orderBy('name', 'desc')
+        ->orderBy('id', 'asc')
         ->paginate(10);
     }
 

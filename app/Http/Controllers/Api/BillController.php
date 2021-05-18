@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Session;
 use App\Http\Resources\bill\DetailCollection;
 use App\Http\Resources\bill\BillCollection;
 use App\Http\Requests\BillRequest;
 use App\Repositories\ProductRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\BillRepository;
-use App\Http\Resources\customer\CustomerCollection;
 use App\Http\Resources\customer\CustomerResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerBillRequest;
@@ -39,7 +37,6 @@ class BillController
     {
         return new BillCollection($this->billRepository->search($request->searchFilter()));
     }
-
     //Store Bill & BillDetail
     public function store($customer, Request $request, CustomerBillRequest $customerRequest, BillRequest $billRequest)
     {
@@ -76,13 +73,13 @@ class BillController
                 'billDetail' => $showBillDetail
             ]; 
             //mail
-                $to_name = "Shoes E-commerce";
-                $to_mail = 'vophamtandoan99@gmail.com';
-                $data = ['name'=>"Shoes", "details"=>$dataresult];
-                Mail::send('mail', $data, function($message) use ($to_name, $to_mail){
-                    $message->to($to_mail)->subject('Đơn hàng từ Shoes E-commerce');
-                    $message->from($to_mail, $to_name);
-                }); 
+                // $to_name = "Shoes E-commerce";
+                // $to_mail = $customer->email;
+                // $data = ['name'=>"Shoes", "details"=>$dataresult];
+                // Mail::send('mail', $data, function($message) use ($to_name, $to_mail){
+                //     $message->to($to_mail)->subject('Đơn hàng từ Shoes E-commerce');
+                //     $message->from($to_mail, $to_name);
+                // }); 
             return $dataresult;
         }
     }
@@ -115,6 +112,15 @@ class BillController
                 $totalAmount = $this->productRepository->sum($product_id);
                 $this->productRepository->amount($product_id, $totalAmount);
             }
+            $customer = new CustomerResource($this->customerRepository->show($bill->customer_id));
+            //mail
+            $to_name = "Shoes E-commerce";
+            $to_mail = $customer->email;
+            $data    = ["body"=>$bill->id, 'name'=> $customer->name];
+            Mail::send('truemail', $data, function($message) use ($to_name, $to_mail){
+                $message->to($to_mail)->subject('Đơn hàng từ Shoes E-commerce');
+                $message->from($to_mail, $to_name);
+            }); 
             return new BaseResource($this->billRepository->updateStatus($id));
         } 
     }

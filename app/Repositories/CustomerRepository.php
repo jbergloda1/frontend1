@@ -3,11 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
-use Crypt;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
+
 
 class CustomerRepository
 {
@@ -55,19 +51,7 @@ class CustomerRepository
              ->update([
                  'name'          => $inputs['name'],
                  'phone'         => $inputs['phone'],
-                 'address'       => $inputs['address'],
-                 'email'         => $inputs['email'],
-                 'password'      => encrypt($inputs['password'])//Hash::make($inputs['password'])
-             ]);
-     }
-     public function editNoPass($inputs, $id)
-     {
-         return Customer::findOrFail($id)
-             ->update([
-                 'name'          => $inputs['name'],
-                 'phone'         => $inputs['phone'],
-                 'address'       => $inputs['address'],
-                 'email'         => $inputs['email']
+                 'address'       => $inputs['address']
              ]);
      }
 }

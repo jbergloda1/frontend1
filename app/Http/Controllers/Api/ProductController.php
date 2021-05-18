@@ -12,7 +12,6 @@ use App\Http\Resources\product\SizeCollection;
 use App\Http\Resources\product\ColorCollection;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductSizeColorRequest;
-use App\Models\Product;
 use App\Repositories\ProductRepository;
 
 class ProductController
@@ -38,7 +37,6 @@ class ProductController
     public function showNewest(ProductRequest $request){
         return $this->productRepository->showNewest($request->searchFilter());
     }
-
     //Store Product
     public function store(ProductRequest $request, ProductSizeColorRequest $requestSizeColor)
     {

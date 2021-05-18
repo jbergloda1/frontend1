@@ -5,11 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\SessionUser;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
 
 
 class UserRepository
@@ -30,7 +26,7 @@ class UserRepository
         ->when(isset($inputs['status']), function ($query) use ($inputs) {
             return $query->where('status', 'LIKE', '%' . $inputs['status'] . '%');
         })
-        ->orderBy('code', 'desc')
+        ->orderBy('id', 'asc')
         ->paginate(10);
     }
 

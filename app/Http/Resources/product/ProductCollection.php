@@ -19,7 +19,7 @@ class ProductCollection extends BaseCollection
                 'sale'          => $product->sale,
                 'supplier_id'   => $product->supplier_id,
                 'category_id'   => $product->category_id,
-                'status'        => $product->status,
+                'status'        => $product->status
             ];
         });
     }

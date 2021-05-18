@@ -12,17 +12,20 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
     |--------------------------------------------------------------------------
     */
         //Show web page
+            //ProductNew
+            Route::get('product-new', 'HomeController@show');
             // Sản phẩm theo nhà cung cấp
-            Route::get('product-supplier/{id}', 'HomeController@getProductSupplier')->name('product.supplier');
-            Route::get('product-category/{id}', 'HomeController@getProductCategory')->name('product.category');
+            Route::get('product-supplier/{id}', 'HomeController@getProductSupplier');
+            Route::get('product-category/{id}', 'HomeController@getProductCategory');
             //Color, Size theo Product
-            Route::get('product-color/{id}', 'HomeController@getProductColor')->name('product.color');
-            Route::get('product-size/{product}/{color}', 'HomeController@getProductSize')->name('product.size');
+            Route::get('product-color/{id}', 'HomeController@getProductColor');
+            Route::get('product-size/{product}/{color}', 'HomeController@getProductSize');
             
         //Product - Category - Supplier == WEB PAGE
         Route::get('category', 'CategoryController@search');
         Route::get('supplier', 'SupplierController@search');
         Route::get('product', 'ProductController@search');
+        Route::get('product-new','ProductController@showNewest');
         
         //Login ADMIN
             Route::post('login', 'LoginController@login')->name('login');
@@ -52,16 +55,14 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
 
         //Logout
         Route::get('logout', 'LoginController@logout');
-        // show product
-        Route::get('product/{id}', 'ProductController@show');
-        Route::get('product-new', 'ProductController@showNewest');
+
     /*
     |--------------------------------------------------------------------------
     | ADMIN PAGE
     |--------------------------------------------------------------------------
     */
-    Route::group(['middleware' => ['auth']], function () {
-        Route::group(['middleware' => ['role']], function () {
+   // Route::group(['middleware' => ['auth']], function () {
+     //   Route::group(['middleware' => ['role']], function () {
             /*
             |--------------------------------------------------------------------------
             | ADMIN - (role == 1)
@@ -78,7 +79,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
                 Route::put('supplier/{id}', 'SupplierController@update');
 
                 //Product
-
+                Route::get('product/{id}', 'ProductController@show');
                 Route::post('product', 'ProductController@store');
                 Route::put('product/{id}', 'ProductController@update');
                 Route::delete('product/{id}', 'ProductController@destroy');
@@ -97,7 +98,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
                 //Token
                 Route::post('refresh', 'LoginController@refreshToken');
                 Route::delete('delete-token', 'LoginController@deleteToken');
-       });
+     //  });
         /*
             |--------------------------------------------------------------------------
             | ADMIN - USER (role == 1 || role ==2)
@@ -116,5 +117,5 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
 
                 // //Logout
                 // Route::get('logout', 'LoginController@logout')->name('user.logout');
-   });
+   //});
 });

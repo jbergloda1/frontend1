@@ -42,7 +42,7 @@ class BillRequest extends FormRequest
     public function storeRules(): array
     {
         return [
-            'payment' => 'required|string|min:0|max:100',
+            // 'payment' => 'required|string|min:0|max:100',
             'note' => 'nullable'
         ];
     }

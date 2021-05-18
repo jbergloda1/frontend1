@@ -3,9 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Cart;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\UserUnauthorizedException;
-use Config;
+
 
 class CartRepository
 {
@@ -27,6 +25,7 @@ class CartRepository
             ->wherecolor_id($cart['color_id'])
             ->wheresize_id($cart['size_id'])
             ->first();
+            
     }
 
     public function plus($checkCart, $quantity)
