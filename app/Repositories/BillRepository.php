@@ -13,7 +13,7 @@ class BillRepository
     public function search($inputs)
     {
         return Bill::join('customer', 'bill.customer_id', '=', 'customer.id')
-        ->select('bill.id as id', 'customer.name as customer_id',
+        ->select('bill.id as id', 'customer.id as customer_id',
                 'bill.total as total', 'bill.payment as payment',
                 'bill.dateorder as dateorder', 'bill.note as note', 'bill.status as status')
         ->when(isset($inputs['bill.id']), function ($query) use ($inputs) {
@@ -84,7 +84,7 @@ class BillRepository
         return Bill::whereid($id)
         ->join('customer', 'bill.customer_id', '=', 'customer.id')
         ->select('bill.id as id',
-                'customer.name as customer_id',
+                'customer.id as customer_id',
                 'bill.total as total',
                 'bill.payment as payment',
                 'bill.dateorder as dateorder',
