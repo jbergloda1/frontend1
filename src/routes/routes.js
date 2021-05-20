@@ -13,7 +13,7 @@ import Checkout from 'src/pages/Checkout.vue'
 import Register from 'src/pages/Register'
 import Logincustomer from 'src/pages/Logincustomer.vue'
 import Profile from 'src/pages/ProfileCustomer'
-
+import Preview from 'src/pages/Preview'
 import Registration from 'src/client/Registration.vue'
 
 // Admin pages
@@ -51,6 +51,11 @@ const routes = [{
         path: '/shop',
         name: 'shop',
         component: Shop
+    },
+    {
+        path: '/product/:id',
+        name: 'Product',
+        component: Preview
     },
     {
         path: '/registercustomer',

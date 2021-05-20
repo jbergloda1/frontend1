@@ -13,8 +13,9 @@
           <router-link class="item-menu" to="/viewcart"
             >Cart (<span class="total-count">{{ quantity_cart }}</span
             >)
-            <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
+            
           </router-link>
+          <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
           <router-link class="item-menu" to="/profile-customer">{{ mail }}</router-link>
           <b-button variant="primary" class="item-menu" @click="logout"
             >Đăng xuất </b-button

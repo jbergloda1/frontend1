@@ -50,7 +50,7 @@
             <b-link class="paym" href="#" to="/checkout">
         Checkout</b-link
       >
-      <b-button class="paym" variant="primary">Clear cart</b-button>
+      <b-button class="paym" variant="primary" @click="clear()">Clear cart</b-button>
       <b-link class="comeback" href="#" to="/home">
         <b-icon icon="arrow-return-left"></b-icon>
         Continue Purchase</b-link
@@ -139,8 +139,7 @@ export default {
     removeCart(id) {
       this.id = id;
       Swal.fire({
-        title: "Bạn chắc chắn muốn xóa giỏ hàng này?",
-        text: "You won't be able to revert this!",
+        title: "Xóa sản phẩm này khỏi giỏ hàng?",
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
@@ -149,6 +148,30 @@ export default {
         if (result.value) {
           axios
             .get(`http://127.0.0.1:8000/api/remove/` + id)
+            .then(() => {
+              Swal.fire("Đã loại sản phẩm", "Thành công.", "success");
+              this.cartss();
+            })
+            .catch(error => {
+              this.cartss();
+              Swal.fire("Failed!", error.message, "warning");
+              console.log("Lỗi", error);
+            });
+        }
+      });
+    },
+    clear(){
+      this.customer = JSON.parse(localStorage.getItem("customer"));
+      Swal.fire({
+        title: "Bạn chắc chắn muốn xóa toàn bộ giỏ hàng",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios
+            .get(`http://127.0.0.1:8000/api/clear/`+ this.customer.id)
             .then(() => {
               Swal.fire("Đã xóa giỏ hàng!", "Thành công.", "success");
               this.cartss();

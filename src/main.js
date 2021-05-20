@@ -6,6 +6,7 @@ import store from './store'
 import VueAxios from 'vue-axios'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueSwal from 'vue-swal'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -15,6 +16,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'

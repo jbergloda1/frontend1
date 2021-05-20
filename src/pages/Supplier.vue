@@ -4,13 +4,9 @@
     <b-card no-body>
       <b-tabs card>
         <b-tab no-body title="All Product">
-          <div class="products" style="margin: 20px;">
+          <div class="products" style="margin: 20px">
             <b-row align-h="center">
-              <b-col
-                cols="3"
-                v-for="product in products"
-                :key="product.name"
-              >
+              <b-col cols="3" v-for="product in products" :key="product.name">
                 <div v-if="product.status != 2">
                   <div>
                     <div v-if="product.sale != null">
@@ -18,14 +14,18 @@
                         ><span>{{ product.sale }}%</span>
                       </b-badge>
                     </div>
-                    <img class="img_shop"
-                      :src="'http://127.0.0.1:8000/uploads/product/'+product.img"
-                      contain  
-                      height="50px"
-                      width="337.78px"
-                    >
-                    
-                    
+
+                    <router-link :to="{ path: '/product/' + product.id }">
+                      <img
+                        class="img_shop"
+                        :src="
+                          'http://127.0.0.1:8000/uploads/product/' + product.img
+                        "
+                        contain
+                        height="50px"
+                        width="337.78px"
+                      />
+                    </router-link>
                   </div>
                   <div class="infopr">
                     <div v-if="product.export_price != null">
@@ -77,7 +77,7 @@
                       <img
                         :src="
                           'http://127.0.0.1:8000/uploads/product/' +
-                            product1.img
+                          product1.img
                         "
                       />
                     </div>
@@ -149,30 +149,27 @@
                   <b-input disabled v-model="product_id"></b-input>
                   <div class="choose">
                     <b-form-group label="Chọn màu">
-                    <b-form-select class="color" v-model="color">
-                      <option
-                        v-for="color in listColor.data"
-                        :key="color.id"
-                        :value="color.id"
-                      >
-                        {{ color.color }}
-                      </option>
-                    </b-form-select>
-                     </b-form-group>
-                     <b-form-group label="Chọn size">
-                    <b-form-select
-                      class="size"
-                      v-model="size"
-                    >
-                    <option
-                        v-for="size in listSize.data"
-                        :key="size.id"
-                        :value="size.id"
-                      >
-                        {{ size.size }}
-                      </option>
-                    </b-form-select>
-                     </b-form-group>
+                      <b-form-select class="color" v-model="color">
+                        <option
+                          v-for="color in listColor.data"
+                          :key="color.id"
+                          :value="color.id"
+                        >
+                          {{ color.color }}
+                        </option>
+                      </b-form-select>
+                    </b-form-group>
+                    <b-form-group label="Chọn size">
+                      <b-form-select class="size" v-model="size">
+                        <option
+                          v-for="size in listSize.data"
+                          :key="size.id"
+                          :value="size.id"
+                        >
+                          {{ size.size }}
+                        </option>
+                      </b-form-select>
+                    </b-form-group>
                     <b-form-spinbutton
                       class="count"
                       id="demo-sb"
@@ -197,9 +194,7 @@
                       > -->
                     </div>
                   </div>
-                  <b-card-text>
-                    {{ note }}
-                  </b-card-text>
+                 
                 </b-col>
               </b-row>
             </div>
@@ -221,11 +216,11 @@ export default {
   components: { CartModal },
   data() {
     return {
-      customer:[],
-      product_id:null,
-      size:null,
-      color:null,
-      quantity:null,
+      customer: [],
+      product_id: null,
+      size: null,
+      color: null,
+      quantity: null,
       listSize: [],
       listColor: [],
       img: null,
@@ -237,7 +232,7 @@ export default {
       supliers: [],
       cart: [],
       products: [],
-      products1: []
+      products1: [],
     };
   },
   created() {
@@ -247,7 +242,7 @@ export default {
     this.getSize();
   },
   methods: {
-        addItemToCart() {
+    addItemToCart() {
       this.customer = JSON.parse(localStorage.getItem("customer"));
       let formData = new FormData();
       formData.append("customer_id", this.customer.id);
@@ -256,14 +251,22 @@ export default {
       formData.append("color_id", this.color);
       formData.append("quantity", this.quantity);
       const config = {
-        headers: { "Content-type": "multipart/form-data" }
+        headers: { "Content-type": "multipart/form-data" },
       };
       axios
-        .post(`http://127.0.0.1:8000/api/add-cart/`+this.customer.id, formData, config)
-        .then(res => {
-          Swal.fire("Đã thêm!", "Thêm sản phẩm vào giỏ hàng thành công.", "success");
+        .post(
+          `http://127.0.0.1:8000/api/add-cart/` + this.customer.id,
+          formData,
+          config
+        )
+        .then((res) => {
+          Swal.fire(
+            "Đã thêm!",
+            "Thêm sản phẩm vào giỏ hàng thành công.",
+            "success"
+          );
         })
-        .catch(error => {
+        .catch((error) => {
           Swal.fire("Failed!", error, "warning");
         });
     },
@@ -275,7 +278,7 @@ export default {
       var self = this;
       Vue.axios
         .get("http://127.0.0.1:8000/api/product/" + id)
-        .then(function(resp) {
+        .then(function (resp) {
           self.product_id = resp.data.data.id;
           self.name = resp.data.data.name;
           self.ex_price = resp.data.data.export_price;
@@ -284,7 +287,7 @@ export default {
           self.sale = resp.data.data.sale;
           self.note = resp.data.data.note;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi:", error);
         });
     },
@@ -292,56 +295,56 @@ export default {
       //console.log("id sp",this.product_id);
       Vue.axios
         .get("http://127.0.0.1:8000/api/product-color/236")
-        .then(resp => {
-          console.log("color",resp.data);
+        .then((resp) => {
+          console.log("color", resp.data);
           this.listColor = resp.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi:", error);
         });
     },
     getSize() {
       Vue.axios
         .get("http://127.0.0.1:8000/api/product-size/236/139")
-        .then(resp => {
-          console.log("size",resp.data);
+        .then((resp) => {
+          console.log("size", resp.data);
           this.listSize = resp.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi:", error);
         });
     },
     getSupp() {
       Vue.axios
         .get("http://127.0.0.1:8000/api/supplier")
-        .then(resp => {
+        .then((resp) => {
           this.supliers = resp.data.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi:", error);
         });
     },
     getSup1(id) {
       Vue.axios
         .get("http://127.0.0.1:8000/api/product-supplier/" + id)
-        .then(resp => {
+        .then((resp) => {
           this.products1 = resp.data.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi:", error);
         });
     },
     getProduct() {
       Vue.axios
         .get("http://127.0.0.1:8000/api/product")
-        .then(resp => {
+        .then((resp) => {
           this.products = resp.data.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi:", error);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -421,14 +424,14 @@ export default {
   text-align: center;
 }
 .sale {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    color: #fff;
-    background: #fc0505;
-    float: right;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  background: #fc0505;
+  float: right;
 }
 .products {
   margin-top: 50px;
