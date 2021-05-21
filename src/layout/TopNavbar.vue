@@ -8,7 +8,7 @@
               <b-dropdown-item href="#">Setting</b-dropdown-item>
               <b-dropdown-item href="#">Change Password</b-dropdown-item>
             </b-dropdown> -->
-            <b>{{ nameSLo }}</b>
+            <b-icon icon="user"><b>{{ nameSLo }}</b></b-icon>
           </li>
           <li class="nav-item">
             <b-button @click="logout">Đăng xuất</b-button>

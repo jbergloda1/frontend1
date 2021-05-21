@@ -1,36 +1,61 @@
 <template>
   <div class="topnavhome">
-    <b-navbar class="topnavbar" toggleable="lg" type="dark">
-      <b-navbar-brand href="#" to="/login">SHOES STORE</b-navbar-brand>
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-      <b-navbar-nav>
-        <router-link class="item-menu" to="/home">Home</router-link>
-        <router-link class="item-menu" to="/shop">Shop</router-link>
-        <router-link class="item-menu" to="/about">About</router-link>
-        <router-link class="item-menu" to="/contact">Contact</router-link>
+    <div>
+      <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#" to="/login">SHOES STORE</b-navbar-brand>
 
-        <div v-if="mail != null">
-          <router-link class="item-menu" to="/viewcart"
-            >Cart (<span class="total-count">{{ quantity_cart }}</span
-            >)
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item to="/home">Home</b-nav-item>
+            <b-nav-item to="/shop">Shop</b-nav-item>
+            <b-nav-item to="/about">About</b-nav-item>
+            <b-nav-item to="/contact">Contact</b-nav-item>
+          </b-navbar-nav>
+
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form>
+              <b-form-input
+                size="sm"
+                class="mr-sm-2"
+                placeholder="Search"
+              ></b-form-input>
+              <b-button size="sm" class="my-2 my-sm-0" type="submit"
+                >Search</b-button
+              >
+            </b-nav-form>
+            <b-navbar-nav v-if="mail != null">
+              <b-nav-item to="/viewcart">
+              Cart (<span class="total-count">{{ quantity_cart }}</span
+                >)
+                <b-icon
+                  icon="cart4"
+                  scale="0.75"
+                  animation="throb"
+                  aria-hidden="true"
+                  class="iccart"
+                ></b-icon>
+              </b-nav-item>
+              <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>{{ mail }}</em>
+              </template>
+              <b-dropdown-item to="/profile-customer">Profile</b-dropdown-item>
+              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+            </b-navbar-nav>
+             <div v-else>
+               <b-nav-item to="/logincustomer">Login</b-nav-item>
+              </div>
+
             
-          </router-link>
-          <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
-          <router-link class="item-menu" to="/profile-customer">{{ mail }}</router-link>
-          <b-button variant="primary" class="item-menu" @click="logout"
-            >Đăng xuất </b-button
-          >
-        </div>
-        <div v-else>
-          <router-link class="item-menu" to="/logincustomer">Login</router-link>
-        </div>
-        <!-- <b-button class="cart-bt" to="/viewcart" data-toggle="modal" data-target="#cart">
-          Cart (<span class="total-count"></span>)
-          <b-icon icon="cart4" aria-hidden="true" class="iccart"></b-icon>
-          </b-button> -->
-      </b-navbar-nav>
-      <b-collapse id="nav-collapse" is-nav> </b-collapse>
-    </b-navbar>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
   </div>
 </template>
 
@@ -43,7 +68,7 @@ export default {
     return {
       mail: null,
       quantity_cart: null,
-      customer: []
+      customer: [],
     };
   },
   created() {
@@ -55,9 +80,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store
-        .dispatch("logoutcustomer")
-        .then(() => this.$router.go());
+      this.$store.dispatch("logoutcustomer").then(() => this.$router.go());
     },
     total() {
       var self = this;
@@ -65,14 +88,14 @@ export default {
       console.log("local:", this.customer.id);
       axios
         .get("http://127.0.0.1:8000/api/total-cart/" + this.customer.id)
-        .then(function(resp) {
+        .then(function (resp) {
           self.quantity_cart = resp.data.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi cart:", error);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

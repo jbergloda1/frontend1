@@ -66,7 +66,7 @@
                 cols="50"
               >
               </textarea>
-              <label for="address" class="">Mothod</label>
+              <label for="address" class="">Method</label>
               <b-form-select
                 v-model="checkout.method"
                 :options="options"
@@ -75,7 +75,7 @@
               <!-- <mdb-btn @click="payment()" color="primary" size="lg" block type="submit"
                 >Payment</mdb-btn
               > -->
-              <b-button variant="primary" @click="payment()">Payment</b-button>
+              <b-button variant="primary" @click="payment()">Submit</b-button>
             </form>
           </mdb-tab-content>
         </mdb-col>
@@ -185,8 +185,8 @@ export default {
   data() {
     return {
       options: [
-        { value: 1, text: "Giao tận nơi (COD)" },
-        { value: 2, text: "Thanh toán online" }
+        { value: "Giao tận nơi (COD)", text: "Giao tận nơi (COD)" },
+        { value: "Thanh toán online", text: "Thanh toán online" }
       ],
       email:null,
       carts: [],

@@ -47,14 +47,21 @@
           </tr>
         </tbody>
       </table>
-            <b-link class="paym" href="#" to="/checkout">
-        Checkout</b-link
-      >
-      <b-button class="paym" variant="primary" @click="clear()">Clear cart</b-button>
-      <b-link class="comeback" href="#" to="/home">
-        <b-icon icon="arrow-return-left"></b-icon>
-        Continue Purchase</b-link
-      >
+      <div class="row">
+        <div class="col-lg-10">
+          <b-link class="comeback" variant="warning" href="#" to="/home">
+            <b-button><b-icon icon="arrow-return-left"></b-icon>Continue Purchase</b-button> </b-link
+          >
+        </div>
+        <div class="col-lg-1">
+          <b-link class="paym" href="#" to="/checkout"> <b-button class="btn btn-success">Checkout</b-button></b-link>
+        </div>
+        <div class="col-lg-1">
+          <b-button class="paym" variant="primary" @click="clear()"
+            >Clear</b-button
+          >
+        </div>
+      </div>
     </b-container>
     <top-nav-home />
     <content-footer-home />
@@ -75,7 +82,7 @@ export default {
     return {
       carts: [],
       cart: {
-        quantity: null
+        quantity: null,
       },
       customer: [],
       id: null,
@@ -86,7 +93,7 @@ export default {
   },
   mounted() {},
   computed: {
-    today: function() {
+    today: function () {
       var weekday = [
         "Sunday",
         "Monday",
@@ -94,7 +101,7 @@ export default {
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday"
+        "Saturday",
       ];
       var today = new Date();
       var dd = today.getDate();
@@ -111,11 +118,11 @@ export default {
 
       today = {
         day: weekday[today.getDay()],
-        date: mm + "-" + dd + "-" + yyyy
+        date: mm + "-" + dd + "-" + yyyy,
       };
 
       return today;
-    }
+    },
   },
   methods: {
     formatPrice(value) {
@@ -128,11 +135,11 @@ export default {
       console.log("local:", this.customer.id);
       axios
         .get("http://127.0.0.1:8000/api/view-cart/" + this.customer.id)
-        .then(function(resp) {
+        .then(function (resp) {
           self.carts = resp.data.data;
           self.quantity = resp.data.data.quantity;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Loi cart:", error);
         });
     },
@@ -143,8 +150,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
         if (result.value) {
           axios
             .get(`http://127.0.0.1:8000/api/remove/` + id)
@@ -152,7 +159,7 @@ export default {
               Swal.fire("Đã loại sản phẩm", "Thành công.", "success");
               this.cartss();
             })
-            .catch(error => {
+            .catch((error) => {
               this.cartss();
               Swal.fire("Failed!", error.message, "warning");
               console.log("Lỗi", error);
@@ -160,23 +167,23 @@ export default {
         }
       });
     },
-    clear(){
+    clear() {
       this.customer = JSON.parse(localStorage.getItem("customer"));
       Swal.fire({
         title: "Bạn chắc chắn muốn xóa toàn bộ giỏ hàng",
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
         if (result.value) {
           axios
-            .get(`http://127.0.0.1:8000/api/clear/`+ this.customer.id)
+            .get(`http://127.0.0.1:8000/api/clear/` + this.customer.id)
             .then(() => {
               Swal.fire("Đã xóa giỏ hàng!", "Thành công.", "success");
               this.cartss();
             })
-            .catch(error => {
+            .catch((error) => {
               this.cartss();
               Swal.fire("Failed!", error.message, "warning");
               console.log("Lỗi", error);
@@ -198,13 +205,13 @@ export default {
           Swal.fire("Đã update giỏ hàng!", "Thành công.", "success");
           this.cartss();
         })
-        .catch(error => {
+        .catch((error) => {
           this.cartss();
           Swal.fire("Failed!", error.message, "warning");
           console.log("Lỗi", error);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

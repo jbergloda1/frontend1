@@ -169,10 +169,13 @@
                     <td>{{ bill.note }}</td>
                     <td>
                       <div v-if="bill.status == 1">
-                        <b-badge variant="success">Active</b-badge>
+                        <b-badge variant="success">Chờ xác nhận</b-badge>
+                      </div>
+                      <div v-else-if="bill.status == 2">
+                        <b-badge variant="danger">Đang vận chuyển</b-badge>
                       </div>
                       <div v-else>
-                        <b-badge variant="danger">Inactive</b-badge>
+                        <b-badge variant="warning">Gửi thành công</b-badge>
                       </div>
                     </td>
                     <td>

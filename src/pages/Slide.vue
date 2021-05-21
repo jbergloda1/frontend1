@@ -67,6 +67,6 @@
 <style scoped>
 .carousel{
   position: relative;
-  margin-top: 79px;
+  margin-top: 65px;
 }
 </style>
