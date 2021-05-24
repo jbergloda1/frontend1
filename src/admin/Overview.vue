@@ -24,7 +24,7 @@
               <i class="fa fa-shopping-bag"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Đang giao hàng</p>
+              <p class="card-category">Đang giao</p>
               <h4 class="card-title">{{statusTwo }}</h4>
             </div>
             <div slot="footer"><i class="fa fa-calendar-o"></i>Updated now</div>

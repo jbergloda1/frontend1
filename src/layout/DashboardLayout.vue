@@ -14,10 +14,15 @@
         <i class="fa fa-product-hunt"></i>
         <p>Product list</p>
       </sidebar-link>
+      <sidebar-link to="/admin/product-altribute">
+        <i class="fa fa-product-hunt"></i>
+        <p>Product Altributes</p>
+      </sidebar-link>
       <sidebar-link to="/admin/bill">
         <i class="nc-icon nc-notes"></i>
         <p>Bill list</p>
       </sidebar-link>
+
       <sidebar-link to="/admin/category">
         <i class="nc-icon nc-paper-2"></i>
         <p>Category</p>

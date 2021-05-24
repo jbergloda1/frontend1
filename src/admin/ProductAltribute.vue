@@ -16,16 +16,8 @@
             body-classes="table-full-width table-responsive"
           >
             <template slot="header">
-              <h4 class="card-title">Sản phẩm đang kinh doanh</h4>
-              <div class="text-center">
-                <button
-                  type="submit"
-                  class="btn btn-info btn-fill float-right"
-                  v-b-modal.add-product
-                >
-                  Add new
-                </button>
-              </div>
+              
+              
               <table class="table">
                 <thead>
                   <slot name="columns">
@@ -40,6 +32,7 @@
                     </tr>
                   </slot>
                 </thead>
+                
                 <tbody>
                   <tr
                     v-for="product in products.data"
@@ -63,194 +56,37 @@
                       <b-badge variant="success">Đang kinh doanh</b-badge>
                     </td>
                     <td>
-                      <a href="#" v-b-modal.modal-edit>
-                        <i class="fa fa-eye"></i>
-                      </a>
-                      /
-                      <a href="#" v-b-modal.modal-edit>
-                        <i class="fa fa-edit"></i>
-                      </a>
-                      /
-                      <a href="#" @click="clickDelete(product.id)">
-                        <i class="fa fa-trash"></i>
-                      </a>
+                     <b-button
+                        variant="outline-info"
+                        v-b-modal.modal-center
+                        @click="show(product.id)"
+                        >Show</b-button
+                      >                      
                     </td>
                   </tr>
                 </tbody>
-                <b-modal
+                 <b-modal
                   size="xl"
-                  id="add-product"
-                  title="Add product"
-                  @ok="AddProduct"
+                  id="modal-center"
+                  ref="modal"
+                  title="THÔNG TIN CHI TIẾT HÓA ĐƠN"
+                  @show="resetModal"
+                  @hidden="resetModal"
+                  @ok="handleOk"
                 >
-                  <form>
-                    <b-row>
-                      <b-col lg="5">
-                        <b-form-group
-                          label="Name"
-                          label-for="name-input"
-                          invalid-feedback="Name is required"
-                        >
-                          <b-form-input
-                            id="name-input"
-                            v-model="formadd.name"
-                            required
-                          ></b-form-input>
-                        </b-form-group>
-                        <b-form-group label="Image" label-for="name-input">
-                          <b-form-file
-                            v-model="img"
-                            @change="onImageChange"
-                            placeholder="Choose a image or drop it here..."
-                            drop-placeholder="Drop image here..."
-                          ></b-form-file>
-                          <img class="img1" :src="image" />
-                        </b-form-group>
-                        <b-form-group
-                          label="Description"
-                          label-for="name-input"
-                          invalid-feedback="Name is required"
-                        >
-                          <b-form-textarea
-                            id="textarea"
-                            v-model="formadd.note"
-                            placeholder="Enter something..."
-                            rows="6"
-                            max-rows="8"
-                          ></b-form-textarea>
-                        </b-form-group>
-                      </b-col>
-                      <b-col lg="3">
-                        <b-form-group
-                          label="Import price"
-                          label-for="number-input"
-                          invalid-feedback="Name is required"
-                        >
-                          <b-form-input
-                            type="number"
-                            id="number-input"
-                            min="0"
-                            v-model="formadd.import_price"
-                            required
-                          >
-                          </b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                          label="Sale %"
-                          label-for="number-input"
-                          invalid-feedback="Name is required"
-                        >
-                          <b-form-input
-                            id="number-input"
-                            v-model="formadd.sale"
-                            type="number"
-                            min="0"
-                            max="100"
-                            required
-                          >
-                          </b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                          label="Export price"
-                          label-for="name-input"
-                          invalid-feedback="Name is required"
-                        >
-                          <b-form-input
-                            id="name-input"
-                            type="number"
-                            min="0"
-                            v-model="result"
-                            required
-                            disabled
-                          >
-                          </b-form-input>
-                        </b-form-group>
-                        <b-form-group label="Supplier">
-                          <b-form-select v-model="formadd.supplier_id">
-                            <option
-                              v-for="supplier in listSupp.data"
-                              :key="supplier.id"
-                              :value="supplier.id"
-                            >
-                              {{ supplier.name }}
-                            </option>
-                          </b-form-select>
-                        </b-form-group>
-                        <b-form-group label="Category">
-                          <b-form-select v-model="formadd.category_id">
-                            <option
-                              v-for="category in listCate.data"
-                              :key="category.id"
-                              :value="category.id"
-                            >
-                              {{ category.name }}
-                            </option>
-                          </b-form-select>
-                        </b-form-group>
-                      </b-col>
-
-                      <b-col lg="3">
-                        <div
-                          style="display:flex,align-items: center;justify-content: center;"
-                          v-for="(apartment, index) in apartments"
-                          :key="`apartment - ${index}`"
-                        >
-                          <b-row>
-                            <!-- <b-col lg="4">
-                              <b-form-group label="Color">
-                                <b-form-select v-model="color_id">
-                                  <option
-                                    v-for="colors in listColor.data"
-                                    :key="colors.id"
-                                    :value="colors.id"
-                                    :name="`apartments[${index}][color_id]`"
-                                  >
-                                    {{ colors.color }}
-                                  </option>
-                                </b-form-select>
-                              </b-form-group>
-                            </b-col> -->
-                            <!-- <b-col lg="4">
-                              <b-form-group label="Size">
-                                <b-form-select v-model="size_id">
-                                  <option
-                                    v-for="sizes in listSize.data"
-                                    :key="sizes.id"
-                                    :value="sizes.id"
-                                    :name="`apartments[${index}][size_id]`"
-                                  >
-                                    {{ sizes.size }}
-                                  </option>
-                                </b-form-select>
-                              </b-form-group>
-                            </b-col> -->
-                            <!-- <b-col lg="4">
-                              <b-form-group
-                                label="Quantity"
-                                label-for="number-input"
-                                invalid-feedback="Name is required"
-                              >
-                                <b-form-input
-                                  id="name-input"
-                                  type="number"
-                                  v-model="amount"
-                                  :name="`apartments[${index}][amount]`"
-                                  required
-                                >
-                                </b-form-input>
-                              </b-form-group>
-                            </b-col> -->
-                          </b-row>
-                        </div>
-                        <b-button variant="success" @click="addNewPartment()"
-                          >Add</b-button
-                        >
-                      </b-col>
-                    </b-row>
-                  </form>
+                  <table class="table">
+                    <thead>
+                      <tr v-bind:key="id">
+                        <th>
+                          <h4><b>ten san pham {{product.id}}</b></h4>
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
                 </b-modal>
               </table>
             </template>
+            
           </card>
           <card
             class="strpied-tabled-with-hover"
@@ -384,6 +220,18 @@ export default {
         .then(response => {
           this.products = response.data;
         });
+    },
+    show(id) {
+      var self = this;
+      this.formadd.id = id;
+      axios.get("http://127.0.0.1:8000/api/product/"+id).then(res => {
+        self.name = res.data.data.name;
+        self.note = res.data.data.note;
+        self.import_price = res.data.data.import_price;
+        self.sale = res.data.data.sale;
+        self.supplier_id = res.data.data.supplier_id;
+        self.category_id = res.data.data.category_id;
+      });
     },
     onImageChange(e) {
       let files = e.target.files || e.dataTransfer.files;

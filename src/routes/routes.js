@@ -26,6 +26,7 @@ import Suppliers from 'src/admin/Suppliers.vue'
 import Users from 'src/admin/Users.vue'
 import Notifications from 'src/admin/Notifications.vue'
 import Login from 'src/admin/Login.vue'
+import ProductAltribute from '../admin/ProductAltribute.vue'
 
 
 
@@ -123,6 +124,11 @@ const routes = [{
                 path: 'product-list',
                 name: 'Product List',
                 component: ProductList
+            },
+            {
+                path: 'product-altribute',
+                name: 'Product Altribute',
+                component: ProductAltribute
             },
             {
                 path: 'bill',
