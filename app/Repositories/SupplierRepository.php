@@ -15,7 +15,7 @@ class SupplierRepository
         ->when(isset($inputs['name']), function ($query) use ($inputs) {
             return $query->where('supplier.name', 'LIKE', '%' . $inputs['name'] . '%');
         })
-        ->orderBy('id', 'asc')
+        ->latest()
         ->paginate(10);
     }
 

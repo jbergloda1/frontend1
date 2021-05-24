@@ -16,7 +16,7 @@ class CategoryRepository
         ->when(isset($inputs['name']), function ($query) use ($inputs) {
             return $query->where('name', 'LIKE', '%' . $inputs['name'] . '%');
         })
-        ->orderBy('id', 'asc')
+        ->latest()
         ->paginate();
     }
     
